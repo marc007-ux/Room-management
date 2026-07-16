@@ -1,0 +1,51 @@
+:root {
+  /* Brand */
+  --color-primary: #8B5E3C;
+  --color-primary-hover: #714C30;
+  --color-primary-light: #F2E8DC;
+
+  /* Neutrals */
+  --color-bg: #F7F2EA;
+  --color-surface: #FFFFFF;
+  --color-border: #EAE1D3;
+  --color-text: #221E1A;
+  --color-text-muted: #6E6559;
+
+  /* Status system (rooms, reservations) */
+  --status-available: #1E8E5A;
+  --status-available-bg: #E7F5EC;
+  --status-reserved: #C98A1B;
+  --status-reserved-bg: #FBF1DD;
+  --status-occupied: #2C5AA0;
+  --status-occupied-bg: #E7EEF8;
+  --status-maintenance: #8A6D3B;
+  --status-maintenance-bg: #F2ECDE;
+  --status-out-of-service: #B33A3A;
+  --status-out-of-service-bg: #FAE8E8;
+
+  /* Feedback */
+  --color-success: #1E8E5A;
+  --color-error: #B33A3A;
+  --color-warning: #C98A1B;
+
+  /* Typography */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* Radius & shadow */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --shadow-card: 0 4px 24px rgba(34, 30, 26, 0.06);
+  --shadow-card-lg: 0 12px 40px rgba(34, 30, 26, 0.08);
+}

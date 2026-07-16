@@ -1,14 +1,16 @@
-// src/App.jsx
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { LanguageProvider } from './context/LanguageContext'
 import AppRouter from './routes/AppRouter'
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
+      <LanguageProvider>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </LanguageProvider>
     </AuthProvider>
   )
 }

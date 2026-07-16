@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { LogIn, UserPlus } from 'lucide-react'
+import { UserPlus } from 'lucide-react'
 import AuthLayout from '../components/auth/AuthLayout'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import Alert from '../components/ui/Alert'
 import { supabase } from '../lib/supabaseClient'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -17,13 +17,14 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
+      options: { data: { name: form.name } },
     })
     setLoading(false)
     if (error) return setError(error.message)
-    navigate('/dashboard')
+    navigate('/login')
   }
 
   return (
@@ -32,6 +33,12 @@ export default function LoginPage() {
         {error && <Alert type="error">{error}</Alert>}
 
         <form onSubmit={handleSubmit}>
+          <Input
+            label="Full name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
           <Input
             label="Email"
             type="email"
@@ -49,15 +56,13 @@ export default function LoginPage() {
             required
           />
           <Button type="submit" disabled={loading} style={{ width: '100%' }}>
-            <LogIn size={16} /> {loading ? 'Logging in...' : 'Log In'}
+            <UserPlus size={16} /> {loading ? 'Creating account...' : 'Sign Up'}
           </Button>
         </form>
 
-        <Link to="/register" style={{ textDecoration: 'none', width: '100%', display: 'block', marginTop: 'var(--space-3)' }}>
-          <Button variant="secondary" style={{ width: '100%' }} type="button">
-            <UserPlus size={16} /> Create a new account
-          </Button>
-        </Link>
+        <p className="auth-switch">
+          Already have an account? <Link to="/login">Log in</Link>
+        </p>
       </div>
     </AuthLayout>
   )

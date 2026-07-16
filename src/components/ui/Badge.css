@@ -1,0 +1,13 @@
+.badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  display: inline-block;
+}
+.badge-available { color: var(--status-available); background: var(--status-available-bg); }
+.badge-reserved { color: var(--status-reserved); background: var(--status-reserved-bg); }
+.badge-occupied { color: var(--status-occupied); background: var(--status-occupied-bg); }
+.badge-maintenance { color: var(--status-maintenance); background: var(--status-maintenance-bg); }
+.badge-out_of_service { color: var(--status-out-of-service); background: var(--status-out-of-service-bg); }
