@@ -33,7 +33,6 @@ const EMPTY_FORM = {
   floor: '',
   capacity: '',
   price: '',
-  status: 'available',
 }
 const SHOW_TEST_ROOM_ACTION = false
 
@@ -321,7 +320,6 @@ export default function RoomsPage() {
       floor: room.floor ?? '',
       capacity: room.capacity ?? '',
       price: String(room.price ?? 0),
-      status: room.status || 'available',
     })
     setPriceMode(numbersMatch(room.price, categoryPrice) ? 'inherited' : 'custom')
     setFormError(null)
@@ -397,12 +395,12 @@ export default function RoomsPage() {
     }
   }
 
-  async function handleStatusChange(room, status) {
+  async function handleMarkAvailable(room) {
     setUpdatingStatusId(room.id)
     setFeedback(null)
 
     try {
-      await updateRoomStatus(room.id, status)
+      await updateRoomStatus(room.id, 'available')
     } catch (err) {
       setFeedback({ type: 'error', text: getRoomErrorMessage(err, t) })
     } finally {
@@ -635,12 +633,18 @@ export default function RoomsPage() {
                 </div>
 
                 <div className="room-card-footer">
-                  <StatusDropdown
-                    value={room.status}
-                    disabled={updatingStatusId === room.id}
-                    language={language}
-                    onChange={(status) => handleStatusChange(room, status)}
-                  />
+                  {room.status === 'maintenance' ? (
+                    <button
+                      className="room-manual-action"
+                      type="button"
+                      onClick={() => handleMarkAvailable(room)}
+                      disabled={updatingStatusId === room.id}
+                    >
+                      {updatingStatusId === room.id ? t('room_loading') : t('room_mark_available')}
+                    </button>
+                  ) : (
+                    <Badge status={room.status}>{getStatusLabel(room.status, language)}</Badge>
+                  )}
 
                   <div className="room-actions">
                     <button className="room-icon-btn" type="button" onClick={() => openEditForm(room)} title={t('room_edit')}>
@@ -747,17 +751,6 @@ export default function RoomsPage() {
                   </button>
                 )}
               </div>
-
-              <label className="room-select-field">
-                <span>{t('room_status_label')}</span>
-                <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
-                  {ROOM_STATUSES.map((status) => (
-                    <option value={status} key={status}>
-                      {getStatusLabel(status, language)}
-                    </option>
-                  ))}
-                </select>
-              </label>
 
               <div className="room-modal-actions">
                 <Button variant="secondary" type="button" onClick={closeForm}>

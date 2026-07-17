@@ -28,8 +28,6 @@ const EMPTY_FORM = {
   room_id: '',
   start_date: '',
   end_date: '',
-  amount: '',
-  status: 'active',
 }
 
 function normalize(value) {
@@ -129,7 +127,6 @@ export default function ReservationsPage() {
       start_date: reservation.start_date || '',
       end_date: reservation.end_date || '',
       amount: reservation.amount ?? '',
-      status: reservation.status || 'active',
     })
     setFormError(null)
     setFeedback(null)
@@ -354,24 +351,6 @@ export default function ReservationsPage() {
                   onChange={handleFormChange}
                 />
 
-                <Input
-                  label={t('reservation_amount_label')}
-                  name="amount"
-                  type="number"
-                  min="0"
-                  step="100"
-                  value={form.amount}
-                  onChange={handleFormChange}
-                />
-
-                <label className="room-select-field">
-                  <span>{t('reservation_status_label')}</span>
-                  <select name="status" value={form.status} onChange={handleFormChange}>
-                    <option value="active">{t('reservation_status_active')}</option>
-                    <option value="completed">{t('reservation_status_completed')}</option>
-                    <option value="cancelled">{t('reservation_status_cancelled')}</option>
-                  </select>
-                </label>
               </div>
 
               <div className="reservation-modal-actions">

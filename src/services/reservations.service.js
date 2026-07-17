@@ -8,8 +8,20 @@ function toReservationPayload(reservation) {
     start_date: reservation.start_date || null,
     end_date: reservation.end_date || null,
     amount: Number(reservation.amount || 0),
-    status: reservation.status || 'active',
   }
+}
+
+function getDerivedStatus(reservation) {
+  if (!reservation) return 'active'
+  if (reservation.status === 'cancelled') return 'cancelled'
+
+  const today = new Date().toISOString().slice(0, 10)
+  const endDate = normalizeDate(reservation.end_date)
+  const startDate = normalizeDate(reservation.start_date)
+
+  if (today < startDate) return 'active'
+  if (today > endDate) return 'completed'
+  return 'active'
 }
 
 function normalizeDate(date) {
@@ -55,17 +67,18 @@ async function ensureAvailability(roomId, startDate, endDate, ignoreReservationI
 
 async function syncRoomStatus(roomId, reservation) {
   const today = new Date().toISOString().slice(0, 10)
+  const derivedStatus = getDerivedStatus(reservation)
   let nextStatus = 'available'
 
-  if (reservation.status === 'cancelled') {
+  if (derivedStatus === 'cancelled') {
     nextStatus = 'available'
-  } else if (reservation.status === 'active') {
+  } else if (derivedStatus === 'active') {
     if (reservation.start_date <= today) {
       nextStatus = 'occupied'
     } else {
       nextStatus = 'reserved'
     }
-  } else if (reservation.status === 'completed') {
+  } else if (derivedStatus === 'completed') {
     nextStatus = 'maintenance'
   }
 
@@ -96,7 +109,10 @@ export const reservationsService = {
   },
 
   async create(reservation) {
+    const room = await roomsService.getById(reservation.room_id)
     const payload = toReservationPayload(reservation)
+    const days = Math.max(1, Math.ceil((new Date(payload.end_date) - new Date(payload.start_date)) / (1000 * 60 * 60 * 24)))
+    payload.amount = Number(room?.price || 0) * days
     await ensureAvailability(payload.room_id, payload.start_date, payload.end_date)
     const { data, error } = await supabase.from('reservations').insert(payload).select().single()
 
@@ -107,7 +123,10 @@ export const reservationsService = {
 
   async update(id, updates) {
     const current = await this.getById(id)
-    const payload = toReservationPayload({ ...current, ...updates, status: updates.status || current.status })
+    const room = await roomsService.getById(updates.room_id || current.room_id)
+    const payload = toReservationPayload({ ...current, ...updates })
+    const days = Math.max(1, Math.ceil((new Date(payload.end_date) - new Date(payload.start_date)) / (1000 * 60 * 60 * 24)))
+    payload.amount = Number(room?.price || 0) * days
     await ensureAvailability(payload.room_id, payload.start_date, payload.end_date, id)
     const { data, error } = await supabase.from('reservations').update(payload).eq('id', id).select().single()
 

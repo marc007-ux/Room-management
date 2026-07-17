@@ -441,6 +441,27 @@
   margin-top: auto;
 }
 
+.room-manual-action {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-primary);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  padding: var(--space-2) var(--space-3);
+}
+
+.room-manual-action:hover:not(:disabled) {
+  background: var(--color-primary-light);
+}
+
+.room-manual-action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .room-actions {
   display: flex;
   align-items: center;
