@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { LogIn, UserPlus } from 'lucide-react'
 import AuthLayout from '../components/auth/AuthLayout'
 import Input from '../components/ui/Input'
@@ -9,6 +9,8 @@ import { supabase } from '../lib/supabaseClient'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const redirectTo = location.state?.from?.pathname || '/dashboard'
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -23,7 +25,7 @@ export default function LoginPage() {
     })
     setLoading(false)
     if (error) return setError(error.message)
-    navigate('/dashboard')
+    navigate(redirectTo, { replace: true })
   }
 
   return (

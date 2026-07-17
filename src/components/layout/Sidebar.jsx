@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, DoorOpen, Tags, Users, CalendarCheck, CreditCard } from 'lucide-react'
 import logo from '../../assets/logo.png'
-import { useLanguage } from '../../context/LanguageContext'
+import { useLanguage } from '../../hooks/useLanguage'
 import './Sidebar.css'
 
 const NAV_ITEMS = [

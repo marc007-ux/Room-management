@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Globe, Bell, LogOut, Settings, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
-import { useLanguage } from '../../context/LanguageContext'
-import { useAuth } from '../../context/AuthContext'
+import { useLanguage } from '../../hooks/useLanguage'
+import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabaseClient'
 import './Header.css'
 
