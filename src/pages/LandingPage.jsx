@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { CalendarCheck, ClipboardList, BellRing, ArrowRight } from 'lucide-react'
-import logo from '../assets/logo.jpeg'
+import logo from '../assets/logo.png'
 import './LandingPage.css'
 
 export default function LandingPage() {
@@ -24,9 +24,7 @@ export default function LandingPage() {
         <Link to="/login" className="btn-pill btn-pill-primary">
           Go to login <ArrowRight size={16} />
         </Link>
-        <Link to="/register" className="btn-pill btn-pill-secondary">
-          Create account
-        </Link>
+        
       </div>
     </div>
   )

@@ -12,9 +12,24 @@
 
 .sidebar-collapsed { width: 76px; padding: var(--space-5) var(--space-2); }
 
-.sidebar-logo { padding: 0 var(--space-2); margin-bottom: var(--space-6); }
-.sidebar-collapsed .sidebar-logo { display: flex; justify-content: center; padding: 0; }
-.sidebar-logo img { height: 36px; }
+.sidebar-logo {
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.sidebar-collapsed .sidebar-logo { padding: 0; }
+.sidebar-logo img {
+  width: min(88%, 170px);
+  height: auto;
+  max-height: 170px;
+  object-fit: contain;
+  border-radius: 24px;
+  padding: 10px;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-card);
+}
+.sidebar-collapsed .sidebar-logo img { width: min(84%, 56px); height: auto; max-height: 56px; }
 
 .sidebar-nav { display: flex; flex-direction: column; gap: var(--space-1); }
 

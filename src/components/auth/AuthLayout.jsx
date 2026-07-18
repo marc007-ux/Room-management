@@ -1,4 +1,4 @@
-import logo from '../../assets/logo.jpeg'
+import logo from '../../assets/logo.png'
 import { ShieldCheck, CalendarCheck } from 'lucide-react'
 import './AuthLayout.css'
 
